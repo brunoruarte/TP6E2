@@ -11,7 +11,7 @@ import java.util.TreeSet;
  * @author bruno
  */
 public class DeTodo extends javax.swing.JFrame {
-    public static TreeSet<Producto> listaProductos = new TreeSet<>();
+    
 
     /**
      * Creates new form DeTodo
@@ -29,7 +29,7 @@ public class DeTodo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPaneEscritorio = new javax.swing.JDesktopPane();
+        Escritorio = new javax.swing.JDesktopPane();
         jMenuBarMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemGestionDeProductos = new javax.swing.JMenuItem();
@@ -40,18 +40,23 @@ public class DeTodo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jDesktopPaneEscritorioLayout = new javax.swing.GroupLayout(jDesktopPaneEscritorio);
-        jDesktopPaneEscritorio.setLayout(jDesktopPaneEscritorioLayout);
-        jDesktopPaneEscritorioLayout.setHorizontalGroup(
-            jDesktopPaneEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
+        Escritorio.setLayout(EscritorioLayout);
+        EscritorioLayout.setHorizontalGroup(
+            EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
         );
-        jDesktopPaneEscritorioLayout.setVerticalGroup(
-            jDesktopPaneEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        EscritorioLayout.setVerticalGroup(
+            EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 277, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Administración");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         jMenuItemGestionDeProductos.setText("Gestión de productos");
         jMenuItemGestionDeProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -92,18 +97,23 @@ public class DeTodo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPaneEscritorio)
+            .addComponent(Escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPaneEscritorio)
+            .addComponent(Escritorio)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemGestionDeProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGestionDeProductosActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here: 
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        GestionDeProductos gestion = new GestionDeProductos();
+        gestion.setVisible(true);
+        Escritorio.add(gestion);
     }//GEN-LAST:event_jMenuItemGestionDeProductosActionPerformed
 
     private void jMenuItemPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrecioActionPerformed
@@ -113,6 +123,10 @@ public class DeTodo extends javax.swing.JFrame {
     private void jMenuItemNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemNombreActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,7 +164,7 @@ public class DeTodo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPaneEscritorio;
+    private javax.swing.JDesktopPane Escritorio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBarMenu;
     private javax.swing.JMenu jMenuConsultar;
@@ -160,7 +174,5 @@ public class DeTodo extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemRubro;
     // End of variables declaration//GEN-END:variables
    
-    private void cargarProductos(Producto producto){
-        listaProductos.add(producto);
-    }
+    
 }
