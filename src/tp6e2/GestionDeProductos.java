@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package tp6e2;
 
 import java.awt.HeadlessException;
@@ -19,7 +15,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo = new DefaultTableModel();
     //creo el Treeset de productos
     public static TreeSet<Producto> listaProductos = new TreeSet<>();
-
+    
     /**
      * Creates new form GestionDeProductos
      */
@@ -27,8 +23,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         initComponents();
         JComboBox<Categoria> jComboBoxCategoria = new JComboBox<>();
         iniciarCombo();
-        encabezados();
-        
+        encabezados();        
     }
 
     /**
@@ -53,6 +48,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         jTextFieldPrecio = new javax.swing.JTextField();
         jComboBoxCategoria = new javax.swing.JComboBox<>();
         jSpinnerStock = new javax.swing.JSpinner();
+        jButtonBuscar = new javax.swing.JButton();
         jButtonNuevo = new javax.swing.JButton();
         jButtonGuardar = new javax.swing.JButton();
         jButtonActualizar = new javax.swing.JButton();
@@ -95,47 +91,66 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
 
         jSpinnerStock.setEnabled(false);
 
+        jButtonBuscar.setIcon(new javax.swing.ImageIcon("G:\\Mi unidad\\ULP Programacion\\Laboratorio 1\\TP5\\TP6E2\\lupita25x25.png")); // NOI18N
+        jButtonBuscar.setMaximumSize(new java.awt.Dimension(30, 30));
+        jButtonBuscar.setMinimumSize(new java.awt.Dimension(30, 30));
+        jButtonBuscar.setPreferredSize(new java.awt.Dimension(30, 30));
+        jButtonBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButtonBuscarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButtonBuscarMouseExited(evt);
+            }
+        });
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(129, 129, 129)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(jLabelCargarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCodigo)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabelStock)
-                                    .addGap(104, 104, 104)
-                                    .addComponent(jSpinnerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelPrecio)
-                                        .addComponent(jLabelCategoria)
-                                        .addComponent(jLabelDescripcion))
-                                    .addGap(31, 31, 31)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextFieldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jComboBoxCategoria, 0, 143, Short.MAX_VALUE)
-                                            .addComponent(jTextFieldCodigo))
-                                        .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelCodigo)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabelStock)
+                            .addGap(104, 104, 104)
+                            .addComponent(jSpinnerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelPrecio)
+                                .addComponent(jLabelCategoria)
+                                .addComponent(jLabelDescripcion))
+                            .addGap(31, 31, 31)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jComboBoxCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabelCargarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(0, 6, Short.MAX_VALUE)
                 .addComponent(jLabelCargarProducto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelCodigo)
-                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelCodigo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDescripcion)
@@ -152,7 +167,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCategoria)
                     .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jButtonNuevo.setText("Nuevo");
@@ -172,6 +187,14 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
 
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.setEnabled(false);
+        jButtonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButtonGuardarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButtonGuardarMouseExited(evt);
+            }
+        });
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGuardarActionPerformed(evt);
@@ -180,6 +203,14 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
 
         jButtonActualizar.setText("Actualizar");
         jButtonActualizar.setEnabled(false);
+        jButtonActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButtonActualizarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButtonActualizarMouseExited(evt);
+            }
+        });
         jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonActualizarActionPerformed(evt);
@@ -227,44 +258,45 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(102, 102, 102)
-                                .addComponent(jLabelGestionDeProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(39, 39, 39)
+                                .addComponent(jButtonNuevo)
+                                .addGap(56, 56, 56)
+                                .addComponent(jButtonGuardar)
+                                .addGap(69, 69, 69)
+                                .addComponent(jButtonActualizar)
+                                .addGap(42, 42, 42)
+                                .addComponent(jButtonEliminar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButtonNuevo)
-                                        .addGap(36, 36, 36)
-                                        .addComponent(jButtonGuardar)
-                                        .addGap(48, 48, 48)
-                                        .addComponent(jButtonActualizar)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(jButtonEliminar))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 12, Short.MAX_VALUE)))
+                                .addGap(164, 164, 164)
+                                .addComponent(jLabelGestionDeProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 28, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelGestionDeProductos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNuevo)
                     .addComponent(jButtonGuardar)
                     .addComponent(jButtonActualizar)
                     .addComponent(jButtonEliminar))
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -274,6 +306,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCodigoActionPerformed
 
+    //Habilito los elementos
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
         // TODO add your handling code here:
         
@@ -289,18 +322,73 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         jSpinnerStock.setEnabled(true);
         
         //limpio los campos
-        jTextFieldCodigo.setText("");
-        jTextFieldDescripcion.setText("");
-        jTextFieldPrecio.setText("");
-        jSpinnerStock.setValue(0);
+        limpiarTodo();
     }//GEN-LAST:event_jButtonNuevoActionPerformed
 
+    //Actualizo un producto existente
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
+        
+        //si el campo "Codigo" no existe, salir (para eliminar algo, primero debe existir)
+        if (jTextFieldCodigo.getText().isEmpty()) {                 
+            JOptionPane.showMessageDialog(this, "Debe ingresar un Código.");
+            return;
+        }  
+        
+        //Guardo el codigo del producto que quiero eliminar
+        int a = Integer.parseInt(jTextFieldCodigo.getText());
+        int b;
+        
+        //Recorro mi Treeset
+        for (Producto listaProducto : listaProductos) {
+            b = listaProducto.getCodigo();
+            //Si encuento un objeto cuyo código sea igual al que quiero eliminar
+            if (a == b) { 
+                 JOptionPane.showMessageDialog(this, "Se actualizó el siguiente prodcuto: " + listaProducto.getDescripcion());
+                //lo borro y muestro nuevamente la tabla
+                listaProductos.remove(listaProducto);
+                //agrego con los nuevos datos
+                agregarProducto2();
+                //muestro mi nunevo treeset
+                limpioYRecorro();
+                limpiarTodo();
+                return;
+            } 
+        }
+        //si no existe ese código, no puedo actualizarlo
+        JOptionPane.showMessageDialog(this, "No existe un producto con ese código.");   
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
+    //elimino un producto existente    
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:    
+                
+        //si el campo "Codigo" no existe, salir (para eliminar algo, primero debe existir)
+        if (jTextFieldCodigo.getText().isEmpty()) {                 
+            JOptionPane.showMessageDialog(this, "Debe ingresar un Código.");
+            return;
+        }  
+        
+        //Guardo el codigo del producto que quiero eliminar
+        int a = Integer.parseInt(jTextFieldCodigo.getText());
+        int b;
+                
+        //Recorro mi Treeset
+        for (Producto listaProducto : listaProductos) {
+            b = listaProducto.getCodigo();
+            //Si encuento un objeto cuyo código sea igual al que quiero eliminar
+            if (a == b) { 
+                JOptionPane.showMessageDialog(this, "Se eliminó el siguiente prodcuto: " + listaProducto.getDescripcion());
+                //lo borro y muestro nuevamente la tabla
+                listaProductos.remove(listaProducto);
+                //muestro mi nunevo treeset
+                limpioYRecorro();
+                limpiarTodo();
+                return;
+            } 
+        }
+        //si no existe ese código, no puedo actualizarlo
+        JOptionPane.showMessageDialog(this, "No existe un producto con ese código.");  
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNuevoMouseEntered
@@ -315,7 +403,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
 
     private void jButtonEliminarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEliminarMouseEntered
         // TODO add your handling code here:
-        jTextPaneDescripcion.setText("Elimina toda la información del código seleccionado");
+        jTextPaneDescripcion.setText("Elimina toda la información del producto seleccionado");
     }//GEN-LAST:event_jButtonEliminarMouseEntered
 
     private void jButtonEliminarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEliminarMouseExited
@@ -323,76 +411,71 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         jTextPaneDescripcion.setText("");
     }//GEN-LAST:event_jButtonEliminarMouseExited
 
+    //para añadir productos nueuvos
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         // TODO add your handling code here:
-        try {
-            //si el campo "Codigo" está vacío, salir
-            if (jTextFieldCodigo.getText().isEmpty()) {                 
-                JOptionPane.showMessageDialog(this, "Debe ingresar un Código.");
-                return;
-            }   
-            //si el campo "Descripcion" está vacío, salir
-            if (jTextFieldDescripcion.getText().isEmpty()) {                 
-                JOptionPane.showMessageDialog(this, "Debe ingresar un producto.");
-                return;
-            } 
-            //si el campo "Precio" está vacío, salir 
-            if (jTextFieldPrecio.getText().isEmpty()) {//si el campo "Precio" está vacío, salir 
-            JOptionPane.showMessageDialog(this, "Debe ingresar un precio."); 
+        
+        //si el campo "Codigo" no existe, salir (para eliminar algo, primero debe existir)
+        if (jTextFieldCodigo.getText().isEmpty()) {                 
+            JOptionPane.showMessageDialog(this, "Debe ingresar un Código.");
             return;
-            }
-
-            //si el campo "Codigo" ya existe, salir
-            for (Producto listaProducto : listaProductos) {
-                    int a = Integer.parseInt(jTextFieldCodigo.getText());
-                    int b = listaProducto.getCodigo();
-                    if (a == b) {                 
-                    JOptionPane.showMessageDialog(this, "Ya existe un producto con ese código.");
-                    return;  
-                }
-            }
-
-
-            int cod = Integer.parseInt(jTextFieldCodigo.getText());
-            String descrip = jTextFieldDescripcion.getText();
-            double precio = Double.parseDouble(jTextFieldPrecio.getText());
-            int stock =(int) jSpinnerStock.getValue();
-            Categoria cat = (Categoria) jComboBoxCategoria.getSelectedItem();
-
-            Producto producto = new Producto(cod, descrip, precio, stock,cat);
-
-            //agrego las variables a la tabla (ver método)
-            cargarProductos(producto);
-            modelo.setRowCount(0);
-
-            for (Producto listaProducto : listaProductos) {
-                int a = listaProducto.getCodigo();
-                String b = listaProducto.getDescripcion();
-                double c = listaProducto.getPrecio();
-                int d = listaProducto.getStock();
-                Categoria e = listaProducto.getRubro();
-
-                agregarProducto(a, b, c, d, e);
-            }
-
-
-            JOptionPane.showMessageDialog(this, "¡Producto añadido!"); 
-
-            //limpio los campos
-            jTextFieldCodigo.setText("");
-            jTextFieldDescripcion.setText("");
-            jTextFieldPrecio.setText("");
-            jSpinnerStock.setValue(0);
-                
-            //excepción en caso de ingresar un precio inválido        
-        } catch (HeadlessException | NumberFormatException e) { 
-            JOptionPane.showMessageDialog(this, "Ingrese un formato de código/precio válido.");
-        }     
+        } 
+        
+        //compruebo que el código no esté utilizado
+        for (Producto listaProducto : listaProductos) {
+            int a = Integer.parseInt(jTextFieldCodigo.getText());
+            int b = listaProducto.getCodigo();
+            if (a == b) { 
+            JOptionPane.showMessageDialog(this, "No puede sobreescribir productos con el mismo código. Debe actualizarlo");
+            return;
+            } 
+        }
+        //si no está utlizado, lo agrego al treeset y a la tabla
+        agregarProducto2(); //ver método debaj)
     }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBuscarMouseEntered
+        // TODO add your handling code here:
+        jTextPaneDescripcion.setText("Busca por código");
+
+    }//GEN-LAST:event_jButtonBuscarMouseEntered
+
+    private void jButtonBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonBuscarMouseExited
+        // TODO add your handling code here:
+        jTextPaneDescripcion.setText("");
+
+    }//GEN-LAST:event_jButtonBuscarMouseExited
+
+    private void jButtonGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseEntered
+        // TODO add your handling code here:
+        jTextPaneDescripcion.setText("Guarda un nuevo producto");
+
+    }//GEN-LAST:event_jButtonGuardarMouseEntered
+
+    private void jButtonGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseExited
+        // TODO add your handling code here:
+        jTextPaneDescripcion.setText("");
+    }//GEN-LAST:event_jButtonGuardarMouseExited
+
+    private void jButtonActualizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseEntered
+        // TODO add your handling code here:
+        jTextPaneDescripcion.setText("Actualiza un producto existente");
+    }//GEN-LAST:event_jButtonActualizarMouseEntered
+
+    private void jButtonActualizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseExited
+        // TODO add your handling code here:
+        jTextPaneDescripcion.setText("");
+    }//GEN-LAST:event_jButtonActualizarMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonActualizar;
+    private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonNuevo;
@@ -415,8 +498,14 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextPane jTextPaneDescripcion;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarProductos(Producto producto){
-        
+    private void limpiarTodo(){
+        jTextFieldCodigo.setText("");
+        jTextFieldDescripcion.setText("");
+        jTextFieldPrecio.setText("");
+        jSpinnerStock.setValue(0);
+    }
+    
+    private void cargarProductos(Producto producto){        
         listaProductos.add(producto);        
     }
     
@@ -427,17 +516,78 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         }
     }
     
+    //limpio los elementos de la tabla y la genero nuevamente
+    private void limpioYRecorro(){
+        //limpio la tabla
+        modelo.setRowCount(0);
+
+        //recorro mi lista y agrego a la tabla cada uno de los elementos
+        for (Producto listaProducto : listaProductos) {
+            int a = listaProducto.getCodigo();
+            String b = listaProducto.getDescripcion();
+            double c = listaProducto.getPrecio();
+            int d = listaProducto.getStock();
+            Categoria e = listaProducto.getRubro();
+
+            agregarProducto(a, b, c, d, e);
+        }
+    }
+    
+    //perzonalizo la tabla
     private void encabezados(){
         modelo.addColumn("Código");
         modelo.addColumn("Descripción");
         modelo.addColumn("Precio");
         modelo.addColumn("Stock");
+        modelo.addColumn("Categoria");
         jTableProductos.setModel(modelo);
     }
     
+      
     //agrego un objeto como nueva fila a la tabla
     public void agregarProducto(int codigo, String descripcion, double precio, int stock, Categoria categoria){        
         modelo.addRow(new Object[]{codigo, descripcion,precio, stock, categoria});
     }    
+    
+    public void agregarProducto2(){
+        try {   
+            //si el campo "Codigo" está vacío, salir
+            if (jTextFieldCodigo.getText().isEmpty()) {                 
+                JOptionPane.showMessageDialog(this, "Debe ingresar un Código.");
+                return;
+            }
+            //si el campo "Descripcion" está vacío, salir
+            if (jTextFieldDescripcion.getText().isEmpty()) {                 
+                JOptionPane.showMessageDialog(this, "Debe ingresar un producto.");
+                return;
+            } 
+            //si el campo "Precio" está vacío, salir 
+            if (jTextFieldPrecio.getText().isEmpty()) {//si el campo "Precio" está vacío, salir 
+            JOptionPane.showMessageDialog(this, "Debe ingresar un precio."); 
+            return;
+            }
 
+            int cod = Integer.parseInt(jTextFieldCodigo.getText());
+            String descrip = jTextFieldDescripcion.getText();
+            double precio = Double.parseDouble(jTextFieldPrecio.getText());
+            int stock =(int) jSpinnerStock.getValue();
+            Categoria cat = (Categoria) jComboBoxCategoria.getSelectedItem();
+
+            Producto producto = new Producto(cod, descrip, precio, stock,cat);
+
+            //agrego las variables a la tabla (ver método)
+            cargarProductos(producto);
+            //muestro la nueva tabla
+            limpioYRecorro();
+
+            JOptionPane.showMessageDialog(this, "¡Se añadió un producto!"); 
+
+            //limpio los campos
+            limpiarTodo();
+                
+        //excepción en caso de ingresar un precio inválido        
+        } catch (HeadlessException | NumberFormatException e) { 
+            JOptionPane.showMessageDialog(this, "Ingrese un formato de código/precio válido.");
+        }
+    }
 }

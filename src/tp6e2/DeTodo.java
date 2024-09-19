@@ -44,11 +44,11 @@ public class DeTodo extends javax.swing.JFrame {
         Escritorio.setLayout(EscritorioLayout);
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 627, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Administración");
