@@ -3,7 +3,6 @@ package tp6e2;
 import java.awt.HeadlessException;
 import java.util.TreeSet;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GestionDeProductos extends javax.swing.JInternalFrame {
     //creo un modelo para perzonalizar la tabla
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private final DefaultTableModel modelo;
     //creo el Treeset de productos
     public static TreeSet<Producto> listaProductos = new TreeSet<>();
     
@@ -21,6 +20,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
      * Creates new form GestionDeProductos
      */
     public GestionDeProductos() {
+        this.modelo = new DefaultTableModel();
         initComponents();
         JComboBox<Categoria> jComboBoxCategoria = new JComboBox<>();
         iniciarCombo();
@@ -336,12 +336,8 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
     private void jButtonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoActionPerformed
         // TODO add your handling code here:
         
-        //Desbloqueo campos y botones
-        //jButtonActualizar.setEnabled(true);
-        //jButtonEliminar.setEnabled(true);
-        //jButtonGuardar.setEnabled(true);
-        jButtonBuscar.setEnabled(true);
-        
+        //Desbloqueo campos y botones        
+        jButtonBuscar.setEnabled(true);        
         jTextFieldCodigo.setEnabled(true);
         jTextFieldDescripcion.setEnabled(true);
         jTextFieldPrecio.setEnabled(true);
@@ -361,43 +357,39 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
             return;
         }
         
-        //Guardo el codigo del producto que quiero actualizar
-        int a = Integer.parseInt(jTextFieldCodigo.getText());
-        int b;
-        
         try {
+            //Guardo el codigo del producto que quiero actualizar
+            int a = Integer.parseInt(jTextFieldCodigo.getText());
+            int b;
+            
+            //recorro mi Treeset
             for (Producto listaProducto : listaProductos) {
-            b = listaProducto.getCodigo();
-            
-            //Si encuento un objeto cuyo código sea igual al que quiero eliminar            
-            if (a == b) { 
-                
-                //lo borro y muestro nuevamente la tabla
-                for (Producto item : listaProductos) {
-                    if (item.getCodigo() == a) {
-                        modelo.setRowCount(0);
-                        
-                        if (jTextFieldDescripcion.getText().isEmpty()) {
-                            JOptionPane.showMessageDialog(this, "La descripción no puede quedar vacía.");
-                            return;
-                        }  
-                        
-                        item.setDescripcion( jTextFieldDescripcion.getText());
-                        JOptionPane.showMessageDialog(this, "Se actualizó el siguiente producto: " + listaProducto.getDescripcion() + ".");
-                        item.setPrecio(Double.parseDouble(jTextFieldPrecio.getText()));
-                        item.setStock((int) jSpinnerStock.getValue());                        
+            b = listaProducto.getCodigo();            
+            //Si encuento un objeto cuyo código sea igual al que quiero actualizar            
+                if (a == b) { 
+                    for (Producto item : listaProductos) {
+                        if (item.getCodigo() == a) {
+                            //verifico que la descripción no esté vacia
+                            if (jTextFieldDescripcion.getText().isEmpty()) {
+                                JOptionPane.showMessageDialog(this, "La descripción no puede quedar vacía.");
+                                return;
+                            }  
+                            //lo borro y muestro nuevamente en la tabla
+                            modelo.setRowCount(0);                        
+                            item.setDescripcion( jTextFieldDescripcion.getText());
+                            JOptionPane.showMessageDialog(this, "Se actualizó el siguiente producto: " + listaProducto.getDescripcion() + ".");
+                            item.setPrecio(Double.parseDouble(jTextFieldPrecio.getText()));
+                            item.setStock((int) jSpinnerStock.getValue());                        
+                        }
                     }
-                 }               
-                //muestro mi nunevo treeset
-                limpiarTodo();
-                inhabilitarBotones();   
-                return;
-            } 
-        }
-            
+                    limpiarTodo();
+                    bloquearTodo();   
+                    return;
+                } 
+            }
         } catch (NumberFormatException e) {
             //si no existe ese código, no puedo actualizarlo
-            JOptionPane.showMessageDialog(this, "No existe un producto con ese código."); 
+            JOptionPane.showMessageDialog(this, "Ingrese un formato de código válido."); 
         }        
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
@@ -408,12 +400,12 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         //si el campo "Codigo" no existe, salir (para eliminar algo, primero debe existir)
         if (codigoEsCero() == true) {
             return;
-        }
-        
+        }        
+       
         //Guardo el codigo del producto que quiero eliminar
         int a = Integer.parseInt(jTextFieldCodigo.getText());
         int b;
-                
+
         //Recorro mi Treeset
         for (Producto item : listaProductos) {
             b = item.getCodigo();
@@ -421,16 +413,12 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
             if (a == b) { 
                 JOptionPane.showMessageDialog(this, "Se eliminó el siguiente producto: " + item.getDescripcion() + ".");
                 //lo borro y muestro nuevamente la tabla
-                listaProductos.remove(item);
-                //muestro mi nunevo treeset
-                limpiarTodo();
+                listaProductos.remove(item);                
                 bloquearTodo();
-                inhabilitarBotones();   
+                limpiarTodo();
                 return;
             } 
-        }
-        //si no existe ese código, no puedo actualizarlo
-        JOptionPane.showMessageDialog(this, "No existe un producto con ese código.");  
+        }        
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonNuevoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNuevoMouseEntered
@@ -461,22 +449,49 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         if (codigoEsCero() == true) {
             return;
         }
-
-        int a = Integer.parseInt(jTextFieldCodigo.getText());
-        int b;
         
-        //compruebo que el código no esté utilizado
-        for (Producto item : listaProductos) {                
-            b = item.getCodigo();
-            if (a == b) { 
-                JOptionPane.showMessageDialog(this, "No puede sobreescribir productos con el mismo código. Debe actualizarlo.");
+        try {   
+            //si el campo "Codigo" está vacío, salir
+            if (codigoEsCero()==true) {                 
                 return;
-            }                 
-        //si no está utlizado, lo agrego al treeset y a la tabla
+            }
+            //si el campo "Descripcion" está vacío, salir
+            if (descripcionEsCero()==true) {                 
+                return;
+            }
+            //si el campo "Precio" está vacío, salir 
+            if (precioEsCero()==true) {                 
+                return;
+            }
+
+            int a = Integer.parseInt(jTextFieldCodigo.getText());
+            String b = jTextFieldDescripcion.getText();
+            double c = Double.parseDouble(jTextFieldPrecio.getText());
+            int d =(int) jSpinnerStock.getValue();
+            Categoria e = (Categoria) jComboBoxCategoria.getSelectedItem();
+            
+            //creo uun nuevo producto con la informaicón de los campos
+            Producto producto = new Producto(a, b, c, d,e);
+
+            //agrego las variables a al Treeset (ver método)
+            cargarProductos(producto);
+            //agrego las variables a a la tabla (ver método)
+            agregarProductoATabla(a,b,c,d,e);
+            //muestro la nueva tabla
+            limpioYRecorro();
+
+            JOptionPane.showMessageDialog(this, "¡Se añadió un producto!"); 
+
+            //limpio los campos
+            limpiarTodo();
+            bloquearTodo();           
+        //excepción en caso de ingresar un precio inválido        
+        } catch (HeadlessException | NumberFormatException e) { 
+            JOptionPane.showMessageDialog(this, "Ingrese un formato de código/precio válido.");
         }
-        agregarProducto2(); //ver método debajo
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
+    //busca el código ingresado y permite guardar, actualiar o eliminar según corresponda
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
        if (codigoEsCero() == true) {                 
@@ -512,7 +527,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
                 }   
             }    
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un formato válido.");  
+            JOptionPane.showMessageDialog(this, "Ingrese un formato de código válido.");  
             return;
         }     
         JOptionPane.showMessageDialog(this, "No se encontró el código buscado. Puede guardar un nuevo producto.");  
@@ -595,6 +610,7 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextPane jTextPaneDescripcion;
     // End of variables declaration//GEN-END:variables
 
+    //limpia los campos
     private void limpiarTodo(){
         jTextFieldCodigo.setText("");
         jTextFieldDescripcion.setText("");
@@ -639,54 +655,13 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         modelo.addColumn("Categoria");
         jTableProductos.setModel(modelo);
     }
-    
-      
+          
     //agrego un objeto como nueva fila a la tabla
     public void agregarProductoATabla(int codigo, String descripcion, double precio, int stock, Categoria categoria){        
         modelo.addRow(new Object[]{codigo, descripcion,precio, stock, categoria});
-    }    
+    } 
     
-    public void agregarProducto2(){
-        try {   
-            //si el campo "Codigo" está vacío, salir
-            if (codigoEsCero()==true) {                 
-                return;
-            }
-            //si el campo "Descripcion" está vacío, salir
-            if (descripcionEsCero()==true) {                 
-                return;
-            }
-            //si el campo "Precio" está vacío, salir 
-            if (precioEsCero()==true) {                 
-                return;
-            }
-
-            int a = Integer.parseInt(jTextFieldCodigo.getText());
-            String b = jTextFieldDescripcion.getText();
-            double c = Double.parseDouble(jTextFieldPrecio.getText());
-            int d =(int) jSpinnerStock.getValue();
-            Categoria e = (Categoria) jComboBoxCategoria.getSelectedItem();
-
-            Producto producto = new Producto(a, b, c, d,e);
-
-            //agrego las variables a al Treeset (ver método)
-            cargarProductos(producto);
-            //agrego las variables a a la tabla (ver método)
-            agregarProductoATabla(a,b,c,d,e);
-            //muestro la nueva tabla
-            limpioYRecorro();
-
-            JOptionPane.showMessageDialog(this, "¡Se añadió un producto!"); 
-
-            //limpio los campos
-            limpiarTodo();
-            inhabilitarBotones();           
-        //excepción en caso de ingresar un precio inválido        
-        } catch (HeadlessException | NumberFormatException e) { 
-            JOptionPane.showMessageDialog(this, "Ingrese un formato de código/precio válido.");
-        }
-    }
-    
+    //bloqueo botones y campos
     public void bloquearTodo(){
         jButtonActualizar.setEnabled(false);
         jButtonEliminar.setEnabled(false);
@@ -727,11 +702,5 @@ public class GestionDeProductos extends javax.swing.JInternalFrame {
         } else {
             return false;
         }
-    }
-    
-    public void inhabilitarBotones(){
-        jButtonGuardar.setEnabled(false);
-        jButtonActualizar.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
     }
 }
